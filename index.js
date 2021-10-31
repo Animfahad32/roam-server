@@ -26,6 +26,7 @@ async function run () {
         // console.log('db connect')
         const database =  client.db("tourCollections")
         const servicesCollection = database.collection("services")
+        const ordersCollection = database.collection("myOrderedServices")
 
         // GET ALL API 
         app.get('/services', async (req, res) => {
@@ -50,6 +51,24 @@ async function run () {
             const service = req.body;
              const result = await servicesCollection.insertOne(service)
             console.log('Hitting the post api!' , service)
+            res.json(result)
+
+        })
+
+        // GET ALL ORDERS
+        app.get('/myorders', async (req, res) => {
+            const cursor = ordersCollection.find({})
+            const services = await cursor.toArray()
+            res.send(services)
+        })
+
+        // post my orders
+
+        app.post('/myorders', async (req, res) => {
+
+            const order = req.body;
+             const result = await ordersCollection.insertOne(order)
+            console.log('Hitting the post api!' , order)
             res.json(result)
 
         })
