@@ -73,6 +73,26 @@ async function run () {
 
         })
 
+        // Get single order API 
+        app.get('/myorders/:id' , async(req, res) =>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)}
+            const service = await ordersCollection.findOne(query)
+            res.json(service)
+        })
+
+        // Delete My Order API
+
+        app.delete('/myorders/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)}
+            const result = await ordersCollection.deleteOne(query)
+            res.json(result)
+        })
+
+
+
+
     }
     finally{
         // await client.close();
